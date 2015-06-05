@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -23,7 +23,7 @@
 
         <header>
             <h1><span class="rank">Junior Lieutenant </span>Natasha Prokofiev</h1>
-            <p>Hawk Zealot</p>
+            <p><em id="nat_role">Sparrow Zealot</em></p>
             <p>You can help the section during <strong>Debrief</strong> by criticizing a fellow airwoman.</p>
         </header>
         <form>
@@ -37,35 +37,51 @@
         <section class="harm">
             <h2>Harm</h2>
             <ol>
-                <li class="curr">0 Fighting Fit!</li>
-                <li class="curr">1 Stressed</li>
-                <li class="curr">2 Injured or exhausted</li>
-                <li class="curr">3 Badly Wounded</li>
-                <li class="curr">4 Death</li>
+                <li class="curr"><strong>0</strong> Fighting fit!</li>
+                <li><strong>1</strong> Stressed</li>
+                <li><strong>2</strong> Injured/exhausted</li>
+                <li><strong>3</strong> Badly wounded</li>
+                <li><strong>4</strong> Deceased</li>
             </ol>
         </section>
         <section class="regard">
             <h2>Regard</h2>
-            <p><input type="text" /><input type="text" /></p>
-            <p><input type="text" /><input type="text" /></p>
-            <p><input type="text" /><input type="text" /></p>
-            <p><input type="text" /><input type="text" /></p>
-            <p><input type="text" /><input type="text" /></p>
+            <ul>
+            <li><select>
+                <option>love</option>
+                <option>trust</option>
+                <option>admire</option>
+                <option>respect</option>
+                <option>hate</option>
+                <option>resent</option>
+                <option>pity</option>
+                <option>fear</option>
+            </select><input type="text" /></li>
+                <li class="locked">LOCKED</li>
+            </ul>
         </section>
         <button>Advance</button>
-        <button>Marked (0/10)</button>
+        <button>Marks (0/10)</button>
         </form>
         <footer>
             <p>Roll + Medals = 13</p>
         </footer>
-        <section>
+        <section class="advance">
             <h2>Advances</h2>
-            <button>Honor and Pride (+1 Medals)</button>
-            <button>Promotion (+1 Guts)</button>
-            <button>Promotion (+1 Luck)</button>
-            <button>Promotion (+1 Skill)</button>
-            <button>Unlock Regard slot</button>
-            <button>Change Duty Station</button>
+            <p>Choose one when directed by a mission, move, or mark.</p>
+            <button id="plusmedal">Honor and Pride (+1 Medals)</button>
+            <button id="promoguts">Promotion (+1 Guts)</button>
+            <button id="promoluck">Promotion (+1 Luck)</button>
+            <button id="promoskill">Promotion (+1 Skill)</button>
+            <button id="addregard">Unlock Regard slot</button>
+            <button id="changestation">Change Duty Station</button>
+            <ul id="adv_moves">
+            </ul>
+        </section>
+        <section class="marks">
+            <h2>Marks</h2>
+            <div id="adv_marks">
+            </div>
         </section>
 
 
