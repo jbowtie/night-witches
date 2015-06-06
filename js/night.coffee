@@ -1,6 +1,5 @@
 document.title="Night Witches"
 
-# for x in y; returns array of results
 # localStorage[key] for DOM storage
 
 formatStat = (num) ->
@@ -11,7 +10,7 @@ formatStat = (num) ->
 
 
 ranks = ["Sergeant", "Junior Lieutenant", " Lieutenant", "Senior  Lieutenant", "Captain", "Major"]
-
+feels = ["love", "trust", "admire", "respect", "hate", "resent", "pity", "fear"]
 natures =
   hawk: {
     name: "Hawk",
@@ -73,6 +72,7 @@ pc.nature = natures.hawk
 pc.guts = 1
 pc.skill = -1
 
+# do this when nature selected
 moves = for m in pc.nature.moves
   "<li><strong>#{m.name}:</strong> #{m.desc}</li>"
 $("#adv_moves").html(moves.join "")
@@ -81,7 +81,10 @@ marks = for mk in pc.nature.marks
   "<button>#{mk}</button>"
 $("#adv_marks").html(marks.join "")
 
+# on load?
 pc.updateBinding()
+
+# event bindings
 $(".stats button").on "click", (e) ->
   pc.rollStat $(this).attr("id")
   false
@@ -114,6 +117,10 @@ $("#promoskill").on "click", (e) ->
 
 $("#addregard").on "click", (e) ->
   pc.regard += 1
+  vals = for f in feels
+    "<option>#{f}</option>"
+  v = vals.join ""
+  $(".regard li.locked:first").removeClass("locked").html("<select>#{v}</select><input type='text' />")
   pc.updateBinding()
   false
 
