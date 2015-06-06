@@ -178,7 +178,7 @@
       return results;
     })();
     v = vals.join("");
-    $(".regard li.locked:first").removeClass("locked").html("<select>" + v + "</select><input type='text' />");
+    $(".regard li.locked:first").removeClass("locked").html("<select id='feel-" + pc.regard + "' data-mini='true' data-inline='true'>" + v + "</select><input type='text' />");
     pc.updateBinding();
     return false;
   });

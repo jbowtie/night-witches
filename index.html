@@ -11,8 +11,11 @@
         <!-- Place favicon.ico in the root directory -->
 
         <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <script src="js/vendor/jquery-1.11.2.min.js"></script>
+        <script src="js/vendor/jquery.mobile-1.4.5.min.js"></script>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -20,13 +23,13 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-
-        <header>
-            <h1><span class="rank">Junior Lieutenant </span>Natasha Prokofiev</h1>
-            <p><em id="nat_role">Sparrow Zealot</em></p>
-            <p>You can help the section during <strong>Debrief</strong> by criticizing a fellow airwoman.</p>
+        <div data-role="page" id="char">
+        <header class="ui-header ui-bar-inherit" role="banner">
+            <h1 class="ui-header ui-bar-inherit"><span class="rank">Junior Lieutenant </span>Natasha Prokofiev</h1>
+            <a href="#move_panel" class="ui-btn ui-btn-icon-notext ui-icon-bars ui-btn-right">Moves</a>
         </header>
-        <form>
+        <form class="ui-content">
+            <p><em id="nat_role">Sparrow Zealot</em> -- You can help the section during <strong>Debrief</strong> by criticizing a fellow airwoman.</p>
         <section class="stats">
             <h2>Stats</h2>
             <button id="guts">Guts <span></span></button>
@@ -36,30 +39,48 @@
         </section>
         <section class="harm">
             <h2>Harm</h2>
-            <ol>
+            <ul data-role="listview" data-inset="true">
                 <li class="curr"><strong>0</strong> Fighting fit!</li>
                 <li><strong>1</strong> Stressed</li>
                 <li><strong>2</strong> Injured/exhausted</li>
                 <li><strong>3</strong> Badly wounded</li>
                 <li><strong>4</strong> Deceased</li>
-            </ol>
-        </section>
-        <section class="regard">
-            <h2>Regard</h2>
-            <ul>
-                <li class="locked">LOCKED</li>
-                <li class="locked">LOCKED</li>
-                <li class="locked">LOCKED</li>
             </ul>
         </section>
-        <button>Advance</button>
-        <button>Marks (0/10)</button>
+        <section class="regard" data-role="collapsible" data-mini="true">
+            <h2>Regard</h2>
+            <ul>
+                <li><div data-role="controlgroup" data-type="horizontal"><select><option>love</option></select>
+                    <input type="text" data-wrapper-class="controlgroup-textinput ui-btn" placeholder="Person or airplane" /></div></li>
+                <li class="locked">LOCKED</li>
+                <li class="locked ui-field-contain">LOCKED</li>
+                <li class="locked ui-field-contain">LOCKED</li>
+            </ul>
+        </section>
+        <ul data-role="listview" data-inset="true">
+            <li><a href="#advance">Advance</a></li>
+            <li><a href="#marks">Marks</a></li>
+        </ul>
         </form>
-        <footer>
+        <footer data-role="footer">
             <p>Roll + Medals = 13</p>
         </footer>
-        <section class="advance">
-            <h2>Advances</h2>
+        <aside data-role="panel" data-position="right" id="move_panel" data-display="reveal" data-theme="b">
+            <h2>Moves</h2>
+            <ul data-role="listview" data-filter="true" data-filter-placeholder="Search moves...">
+                <li data-role="list-divider">Day Moves</li>
+                <li>Repair</li>
+                <li>Scrounge</li>
+                <li data-role="list-divider">Night Moves</li>
+                <li>Attack Run</li>
+                <li>Wayfind</li>
+                <li data-role="list-divider">Special Moves</li>
+                <li>Duty Station</li>
+            </ul>
+        </aside>
+        </div>
+        <section class="advance" id="advance" data-role="page">
+            <h2 data-role="header">Advances</h2>
             <p>Choose one when directed by a mission, move, or mark.</p>
             <button id="plusmedal">Honor and Pride (+1 Medals)</button>
             <button id="promoguts">Promotion (+1 Guts)</button>
@@ -67,17 +88,16 @@
             <button id="promoskill">Promotion (+1 Skill)</button>
             <button id="addregard">Unlock Regard slot</button>
             <button id="changestation">Change Duty Station</button>
-            <ul id="adv_moves">
+            <ul id="adv_moves" data-role="listview">
             </ul>
         </section>
-        <section class="marks">
-            <h2>Marks</h2>
+        <section class="marks" id="marks" data-role="page">
+            <h2 data-role="header">Marks</h2>
             <div id="adv_marks">
             </div>
         </section>
 
 
-        <script src="js/vendor/jquery-1.11.2.min.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
         <script src="js/night.js"></script>
