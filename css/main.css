@@ -94,7 +94,7 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-header > * {
+header > *, p {
     padding: 0 0.5rem;
     font-size: 0.75em;
 }
@@ -165,7 +165,7 @@ section h2 {
     list-style: none;
 }
 
-.harm li, .advance li, .marks li {
+.harm li, .advance .ui-content li, .marks .ui-content li {
     border: 1px solid #AAA;
     border-radius 0.25em;
     background: #EEE;
@@ -179,7 +179,7 @@ section h2 {
     padding: 0.5rem;
 }
 
-.advance li, .advance button, .marks button {
+.advance .ui-content li, .advance .ui-content button, .marks .ui-content button, aside li > * {
     font-size: 0.75em;
     white-space: normal !important;
 }
@@ -194,6 +194,46 @@ button:disabled {
 
 .marks button:disabled {
   color: #555;
+}
+
+li.locked {
+    width:calc(100%-2em);
+    text-align:center;
+    box-shadow: 0 1px 3px black;
+    background-color: #ccc;
+    padding: 1em;
+    margin: 0.5em 0;
+}
+
+form.ui-content {
+    padding:0 1em;
+}
+
+/*
+ mobile trick
+ select is appearance:none, sized to 100% absolute top 0 left 0, opacity:0
+ z-index > container
+ so it appears in front of styled span + icon and gets clicks and keyboard
+ but never appears!
+*/
+.ui-regard .ui-select {
+}
+.regard .controlgroup-textinput {
+ width:10.2em;
+ padding:0.7em 0.5em;
+}
+.regard .ui-select > .ui-btn {
+    padding: 1.175em 2.5em 1.175em 0.5em;
+    width:3.6em;
+}
+
+.advance button.addmove {
+    font-weight:normal;
+}
+
+.advance p, .regard p, footer p {
+    font-weight: normal;
+    margin: 0 0 0.5em;
 }
 
 /* ==========================================================================

@@ -10,7 +10,7 @@
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
         <!-- Place favicon.ico in the root directory -->
 
-        <link rel="stylesheet" href="css/normalize.css">
+        <!-- link rel="stylesheet" href="css/normalize.css" -->
         <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
@@ -23,10 +23,37 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
+        <!-- div data-role="page" id="chooseChar">
+            <div class="ui-content">
+                <ul data-role="listview">
+                    <li><button>Hawk</button></li>
+                    <li><button>Owl</button></li>
+                    <li><button>Pigeon</button></li>
+                    <li><button>Raven</button></li>
+                    <li><button>Sparrow</button></li>
+                </ul>
+            </div>
+        </div>
+        <div data-role="page" id="chooseNature">
+        </div>
+        <div data-role="page" id="chooseRankStats">
+        </div>
+        <div data-role="page" id="chooseName">
+        </div>
+        <div data-role="page" id="chooseRole">
+        </div -->
         <div data-role="page" id="char">
         <header class="ui-header ui-bar-inherit" role="banner">
             <h1 class="ui-header ui-bar-inherit"><span class="rank">Junior Lieutenant </span>Natasha Prokofiev</h1>
             <a href="#move_panel" class="ui-btn ui-btn-icon-notext ui-icon-bars ui-btn-right">Moves</a>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#char" data-icon="grid" class="ui-btn-active ui-state-persist">Sheet</a></li>
+                    <li><a href="#regard" data-icon="heart">Regard</a></li>
+                    <li><a href="#advance" data-icon="plus">Advance</a></li>
+                    <li><a href="#marks" data-icon="bullets">Marks</a></li>
+                </ul>
+            </div>
         </header>
         <form class="ui-content">
             <p><em id="nat_role">Sparrow Zealot</em> -- You can help the section during <strong>Debrief</strong> by criticizing a fellow airwoman.</p>
@@ -47,63 +74,250 @@
                 <li><strong>4</strong> Deceased</li>
             </ul>
         </section>
-        <section class="regard" data-role="collapsible" data-mini="true">
-            <h2>Regard</h2>
-            <ul>
-                <li><div data-role="controlgroup" data-type="horizontal"><select><option>love</option></select>
-                    <input type="text" data-wrapper-class="controlgroup-textinput ui-btn" placeholder="Person or airplane" /></div></li>
-                <li class="locked">LOCKED</li>
-                <li class="locked ui-field-contain">LOCKED</li>
-                <li class="locked ui-field-contain">LOCKED</li>
-            </ul>
-        </section>
-        <ul data-role="listview" data-inset="true">
-            <li><a href="#advance">Advance</a></li>
-            <li><a href="#marks">Marks</a></li>
-        </ul>
         </form>
         <footer data-role="footer">
-            <p>Roll + Medals = 13</p>
+            <p>Click a stat to roll it here.</p>
+            <p><em>Regard</em> gives you +1 on related rolls.</p>
         </footer>
         <aside data-role="panel" data-position="right" id="move_panel" data-display="reveal" data-theme="b">
             <h2>Moves</h2>
             <ul data-role="listview" data-filter="true" data-filter-placeholder="Search moves...">
                 <li data-role="list-divider">Day Moves</li>
-                <li>Repair</li>
-                <li>Scrounge</li>
+                <li><h3>Eyeball</h3>
+                <p><strong>When you size up a person or situation</strong> roll +skill. On 10+, hold 2; 
+                on 7-9, hold 1. Spend a hold, now or later, to ask a question. Take 
+                +1 forward when you act on the answers; give +1 forward to another 
+                and share in the outcome if you prefer. Ask:</p>
+                <ul>
+                    <li>How can I help her?</li>
+                    <li>What does he want?</li>
+                    <li>What am I overlooking?</li>
+                    <li>How can I get…</li>
+                </ul>
+                <p>On a miss, the GM might offer a straight-up lie, honest mistake, or tragic misunderstanding.</p>
+                </li>
+                <li><h3>Act Up</h3>
+                <p><strong>When you try to get your way…</strong></p>
+                <ul><li>…by acting like a hooligan, roll +luck.</li>
+                    <li>…by acting like a lady, roll +guts.</li>
+                    <li>…by acting like a natural-born Soviet airwoman, roll +medals.</li></ul>
+                <p>On 10+, choose two. On 7-9, choose one:</p>
+                <ul>
+                    <li>Make someone do what you want (If the person you are imposing on is a PC, she can do it or not, but if she doesn’t you are both marked)</li>
+                    <li>Ensure that there are no consequences for acting up</li>
+                    <li>Add one to the mission pool</li>
+                </ul>
+                <p>On a miss there will be trouble.</p>
+                </li>
+                <li><h3>Reach Out</h3>
+                <p><strong>When you reach out</strong>
+                to someone by letter or in person, reveal a significant new truth and roll the 
+                dice. On 10+ choose 2. On 7-9 choose one:</p>
+                <ul>
+                    <li>Remove one harm each from you and your friend</li>
+                    <li>Change the target and/or tone of a currently filled Regard slot</li>
+                    <li>Add one to the mission pool</li>
+                </ul>
+                <p>On a miss your efforts are inneffective, misunderstood or understood all too 
+                clearly.</p>
+                </li>
+                <li>
+                <h3>Scrounge</h3>
+                <p><strong>Whenever some specific thing is desperately needed,</strong> roll straight if going 
+                through channels, or roll +luck if you aren’t so good with paperwork. On a you 
+                get what you need and add one to the mission pool. On a 7-9 you get what you 
+                need but choose two (<em>Misanthropes choose one</em>):</p>
+                <ul>
+                    <li>You attract unwanted attention</li>
+                    <li>You take 1-harm from lack of sleep</li>
+                    <li>You get poor quality stuff</li>
+                    <li>You incur a debt
+                </ul>
+                <p>On a miss it can’t be acquired for love or money. Well, for money, anyway. The 
+                GM might choose three options from the 7-9 list or worse.</p>
+                </li>
+                <li>
+                <h3>Repair</h3>
+                <p>If a plane has been torn up or broken down <strong>and you help the mechanics fix 
+                    her</strong>, roll +skill.</p>
+                <p>On any hit you patch it together and it is no longer damaged. On 7-9 you 
+                patch it together but choose two (<em>Protectors choose one</em>):</p>
+                <ul>
+                    <li>She’ll fly eventually, but not tonight</li>
+                    <li>You take 1-harm from lack of sleep</li>
+                    <li>You don’t complete the job in the officially approved manner</li>
+                    <li>The plane acquires a personality if it doesn’t have one already</li>
+                </ul>
+                <p>On a miss you are sending it into combat still damaged. Maybe that’s obvious 
+                and maybe it isn’t.</p>
+                </li>
+                <li>
+                <h3>Tempt Fate</h3>
+                <p><strong>When you tempt fate</strong> roll +guts. On a 10+ you do it. On a 7-9 you do it but 
+                not without cost - The GM can offer you a worse outcome, a hard bargain, or 
+                an ugly choice.</p>
+                <p>On a miss you take harm as established and are marked in addition to failing. Fate is a suka.</p>
+                </li>
+                <li>
+                <h3>Briefing (Ranking Officer)</h3>
+                <p><strong>When the sun begins to set, consult with the GM and inform your 
+                    aircrews about the coming night’s objective.</strong> Assign a navigator to Wayfind and a pilot to lead the Attack Run. The remaining player characters are 
+                Vedomaya; assign each to cover another plane. Choose and check off a mission 
+                from the Duty Station sheet and present it to the assembled regiment. Don’t 
+                forget to announce any medals and promotions during the briefing.</p></li>
                 <li data-role="list-divider">Night Moves</li>
-                <li>Attack Run</li>
-                <li>Wayfind</li>
+                <li>
+                <h3>Vedomaya</h3>
+                <p>When you cover your assigned fellow plane during a mission, hold 1. 
+                Spend your hold at any time to take one of their consequences on yourself or 
+                your aircraft.</p>
+                </li>
+                <li>
+                <h3>Wayfind (Navigator)</h3>
+                <p><strong>When you lead a flight to a target...</strong></p>
+                <ul>
+                    <li>...by daylight, or to your airbase at any time, you find it. </li>
+                    <li>...at night, roll +skill. On a 10+ you find it and line up a textbook approach. </li>
+                </ul>
+                <p>On a 7-9 you find it and choose one consequence:</p>
+                <ul>
+                    <li>Your plane suffers a minor mechanical failure (plane is damaged)</li>
+                    <li>They are waiting for you (triggers Enemy Fire)</li>
+                    <li>You’re stressed or banged around (split 2 harm however you want)</li>
+                </ul>
+                <p>On a miss either scrub the mission and return in shame, or strike the target 
+                late and alone, forcing you to make your own Attack Run. Planes relying on 
+                your navigation can choose which miss condition they would prefer.</p>
+                </li>
+                <li>
+                <h3>Attack Run (Pilot)</h3>
+                <p><strong>When you lead an attack on a target,</strong> roll +guts. On a 10+ your payload connects! Choose one. On a 7-9, it’s a hit and choose two consequences:</p>
+                <ul>
+                    <li>The damage to the target is not significant and it is your fault</li>
+                    <li>You fly through a storm of flak (triggers Enemy Fire)</li>
+                    <li>A plane in your Section is damaged, GM’s choice</li>
+                    <li>You and your fellow airwoman are marked</li>
+                </ul>
+                <p>On a miss either abort the attack completely, which will surely trigger an Informal Interview back at base or desperately press on, Tempting Fate. Planes relying on your leadership can choose which miss condition they would prefer.</p>
+                <p>After an Attack Run by a Leader, if other pilots decide to make an additional Attack Run they enjoy +1 forward.</p>
+                </li>
+                <li>
+                <h3>Tempt Fate</h3>
+                <p><strong>When you tempt fate</strong> roll +guts. On a 10+ you do it. On a 7-9 you do it but 
+                not without cost - The GM can offer you a worse outcome, a hard bargain, or 
+                an ugly choice.</p>
+                <p>On a miss you take harm as established and are marked in addition to failing. Fate is a suka.</p>
+                </li>
+                <li>
+                <h3>Enemy Fire</h3>
+                <p><strong>When your Po-2 is hit by bullets or flak</strong> roll +luck. On a 10+ the old girl’s in one piece and you are fine. On a 7-9 she holds together and you choose two consequences:</p>
+                <ul>
+                    <li>You and your fellow airwoman are marked</li>
+                    <li>Casualties on board (Split 5 harm between you however you like; also triggers Wheels Down later)</li>
+                    <li>Your plane is damaged (Also triggers Wheels Down later)</li>
+                    <li>Another plane in your section goes down (GM will decide which)</li>
+                </ul>
+                <p>On a miss the GM might choose three from the 7-9 list or maybe something more horrific.</p>
+                </li>
+                <li>
+                <h3>Wheels Down</h3>
+                <p><strong>When you land a plane under less than ideal circumstances</strong> roll +skill. 
+                “Less than ideal” includes putting it down anywhere but a prepared airfield, 
+                or with battle damage, or with injured or dead crew. On a 10+ you and your 
+                Po-2 are on the ground and in one piece. Change an open Regard slot to refer 
+                to your plane if you want.</p>
+                <p>On 7-9 you prang the plane; and choose two consequences (<em>Adventurers 
+                    choose one</em>):</p>
+                <ul>
+                    <li>It’s unflyable (plane is damaged; if already damaged it is a fiery wreck)</li>
+                    <li>Casualties on board (Split 3 harm between you however you like)</li>
+                    <li>Your lack of skill, courage or care with the people’s machinery is noted</li>
+                    <li>Your landing puts you in immediate danger.</li>
+                </ul>
+                <p>On a miss the GM will start with a fiery wreck and build from there.</p>
+                </li>
+                <li>
+                <h3>Debrief</h3>
+                <p><strong>When you debrief after a mission</strong>, tell your Chief of Staff or Squadron Commander what went right and what went wrong. The GM may inflict stress harm as established. If you wish, change the tone of any existing Regard. If you are a <em>Zealot</em>, publicly shame a comrade and add one to the next night’s mission pool if you wish. If it was the duty station’s last mission, begin Operational Planning.</p>
+                </li>
                 <li data-role="list-divider">Special Moves</li>
-                <li>Duty Station</li>
+                <li>Operational Planning</li>
+                <li>Informal Interview</li>
+                <li>Behind Enemy Lines</li>
+                <li>Coming Home</li>
+                <li>Severe Injury</li>
             </ul>
         </aside>
-        </div>
-        <section class="advance" id="advance" data-role="page">
-            <h2 data-role="header">Advances</h2>
-            <p>Choose one when directed by a mission, move, or mark.</p>
-            <button id="plusmedal">Honor and Pride (+1 Medals)</button>
-            <button id="promoguts">Promotion (+1 Guts)</button>
-            <button id="promoluck">Promotion (+1 Luck)</button>
-            <button id="promoskill">Promotion (+1 Skill)</button>
-            <button id="addregard">Unlock Regard slot</button>
-            <button id="changestation">Change Duty Station</button>
-            <ul id="adv_moves" data-role="listview">
+    </div>
+        <section id="regard" class="regard" data-role="page">
+
+        <header class="ui-header ui-bar-inherit" role="banner">
+            <h1 class="ui-header ui-bar-inherit"><span class="rank">Junior Lieutenant </span>Natasha Prokofiev</h1>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#char" data-icon="grid">Sheet</a></li>
+                    <li><a href="#regard" data-icon="heart" class="ui-btn-active ui-state-persist">Regard</a></li>
+                    <li><a href="#advance" data-icon="plus">Advance</a></li>
+                    <li><a href="#marks" data-icon="bullets">Marks</a></li>
+                </ul>
+            </div>
+        </header>
+            <div class="ui-content">
+                <p>Regard slots are unlocked by advances and give you +1 on rolls related to the object of your regard.</p>
+            <ul>
             </ul>
-        </section>
-        <section class="marks" id="marks" data-role="page">
-            <h2 data-role="header">Marks</h2>
-            <div id="adv_marks">
             </div>
         </section>
+    <section class="advance" id="advance" data-role="page">
+        <header class="ui-header ui-bar-inherit" role="banner">
+            <h1 class="ui-header ui-bar-inherit"><span class="rank">Junior Lieutenant </span>Natasha Prokofiev</h1>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#char" data-icon="grid">Sheet</a></li>
+                    <li><a href="#regard" data-icon="heart">Regard</a></li>
+                    <li><a href="#advance" data-icon="plus" class="ui-btn-active ui-state-persist">Advance</a></li>
+                    <li><a href="#marks" data-icon="bullets">Marks</a></li>
+                </ul>
+            </div>
+        </header>
+        <div class="ui-content">
+        <p>Choose one when directed by a mission, move, or mark.</p>
+        <button id="plusmedal">Honor and Pride (+1 Medals)</button>
+        <button id="promoguts">Promotion (+1 Guts)</button>
+        <button id="promoluck">Promotion (+1 Luck)</button>
+        <button id="promoskill">Promotion (+1 Skill)</button>
+        <button id="addregard">Unlock Regard slot</button>
+        <button id="changestation">Change Duty Station</button>
+        <div id="adv_moves">
+        </div>
+        </div>
+    </section>
+    <section class="marks" id="marks" data-role="page">
+        <header class="ui-header ui-bar-inherit" role="banner">
+            <h1 class="ui-header ui-bar-inherit"><span class="rank">Junior Lieutenant </span>Natasha Prokofiev</h1>
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#char" data-icon="grid">Sheet</a></li>
+                    <li><a href="#regard" data-icon="heart">Regard</a></li>
+                    <li><a href="#advance" data-icon="plus">Advance</a></li>
+                    <li><a href="#marks" data-icon="bullets" class="ui-btn-active ui-state-persist">Marks</a></li>
+                </ul>
+            </div>
+        </header>
+        <div class="ui-content">
+        <p>Choose a mark when directed by a move or the GM.</p>
+        <div id="adv_marks">
+        </div>
+        </div>
+    </section>
 
 
-        <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
-        <script src="js/night.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/night.js"></script>
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <!-- script>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <!-- script>
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
             function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
             e=o.createElement(i);r=o.getElementsByTagName(i)[0];
@@ -112,4 +326,4 @@
             ga('create','UA-XXXXX-X','auto');ga('send','pageview');
         </script -->
     </body>
-</html>
+    </html>
