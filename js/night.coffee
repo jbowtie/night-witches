@@ -39,11 +39,11 @@ natures =
     name: "Owl",
     moves:
       [
-       {name: "Suka", desc: "You enjoy +1 ongoing when acting like a hooligan. When you act like a lady you are marked."},
-       {name: "People’s Hero", desc: "Name the high-ranking official who has taken a personal interest in your career."},
-       {name: "11.4 Meters Tip-to-Tip", desc: "When you want to land in some new place, you can ask “Is it remotely possible to land there?” and the GM will tell you. If the answer is yes, you don’t need to roll the Wheels Down move."},
-       {name: "As Seen In Pravda", desc: "Use +medals instead of +guts when you Tempt Fate."},
-       {name: "Miss Sverdlovsk 1939", desc: "Advance the first time you have sex with each of: a Senior Lieutenant, a Captain, a Major, a Lieutenant Colonel, or a Colonel."},]
+        {name: "Greater Good", desc: "Rewrite an unused mark to read “Abandon a comrade and Advance”"},
+        {name: "Prodigal Daughter", desc: "Whenever you return to the Regiment after being assumed captured or dead, advance as if it were the end of a duty station."},
+        {name: "Intense Navigation", desc: "To find a target at night, you don’t need to Wayfind if you instead take a mark or 1-harm, your choice. "},
+        {name: "Pull Rank", desc: "Take +1 forward when you Act Up if you outrank the target."},
+        {name: "Political Thought", desc: "When you Eyeball you may also ask “Is there evidence of violation of Articles 58 and 133?” "},]
     marks:
       ["Suffer the death of a friend or lover.",
       "Witness the death of a comrade.",
@@ -62,11 +62,11 @@ natures =
     name: "Pigeon",
     moves:
       [
-       {name: "Suka", desc: "You enjoy +1 ongoing when acting like a hooligan. When you act like a lady you are marked."},
-       {name: "People’s Hero", desc: "Name the high-ranking official who has taken a personal interest in your career."},
-       {name: "11.4 Meters Tip-to-Tip", desc: "When you want to land in some new place, you can ask “Is it remotely possible to land there?” and the GM will tell you. If the answer is yes, you don’t need to roll the Wheels Down move."},
-       {name: "As Seen In Pravda", desc: "Use +medals instead of +guts when you Tempt Fate."},
-       {name: "Miss Sverdlovsk 1939", desc: "Advance the first time you have sex with each of: a Senior Lieutenant, a Captain, a Major, a Lieutenant Colonel, or a Colonel."},]
+        {name:"Shit Talking", desc: "Call out another player character you despise at a debriefing and roll +Regard. On a 10+ hold three; on 7-9 hold one. Spend your holds, one for one, to give this person -1 forward."},
+        {name:"Forbidden Love", desc: "When you take a lover, keep it secret. If discovered, face the consequences together or abandon your lover and advance."},
+        {name:"Androgynous", desc: "You can Act Up by acting like a man - not a hooligan - using +guts. On a miss you are marked."},
+        {name:"Bedside Manner", desc:"When you treat someone who has been badly hurt, roll +luck. On a hit it isn’t so bad. On 7-9 finding out takes a lot of time, energy or resources, GM chooses."},
+        {name:"Enthusiastic Support", desc: "When you are Wingman, choose the consequences for the aircrew leading the Attack Run."},]
     maxRegard: 5,
     maxPromos: 3,
     marks:
@@ -143,7 +143,7 @@ class Witch
     @regard = 0
   updateBinding: ->
     $("header h1").html("<span class='rank'>#{ranks[@rank]} </span>#{@name}")
-    $("#nat_role").text("#{@nature.name} Zealot")
+    $("#nat_role").text("#{@nature?.name} Zealot")
     $("#guts span").text(formatStat @guts)
     $("#luck span").text(formatStat @luck)
     $("#skill span").text(formatStat @skill)
@@ -152,11 +152,11 @@ class Witch
       $("#plusmedal").attr('disabled', 'disabled') 
     else
       $("#plusmedal").removeAttr('disabled')
-    maxPromo = @nature.maxPromo ? 4
+    maxPromo = @nature?.maxPromo ? 4
     $("#promoguts").attr('disabled', 'disabled') if @guts >= 3 or @promos >= maxPromo
     $("#promoluck").attr('disabled', 'disabled') if @luck >= 3 or @promos >= maxPromo
     $("#promoskill").attr('disabled', 'disabled') if @skill >= 3 or @promos >= maxPromo
-    maxRegard = @nature.maxRegard ? 4
+    maxRegard = @nature?.maxRegard ? 4
     $("#addregard").attr('disabled', 'disabled') if @regard >= maxRegard
   rollStat: (stat) ->
     d1 = Math.floor Math.random() * 6 + 1
@@ -172,16 +172,17 @@ class Witch
     $("#adv_marks").html(marks.join "")
     maxRegard = @nature.maxRegard ? 4
     regardslots = $('.regard .ui-content ul')
-    for i in [0...maxRegard]
-      $("<li class='locked'>LOCKED</li>").appendTo(regardslots)
-    
+    reg = for i in [0...maxRegard]
+      "<li class='locked'>LOCKED</li>"
+    regardslots.html(reg.join "")
+
 pc = new Witch()
 pc.name = "Natasha Romanov"
-pc.assignNature(natures.hawk)
-pc.guts = 1
-pc.skill = -1
 
 # on load?
+nat = for k, v of natures
+  "<li><button value='#{k}'>#{v.name}</button></li>"
+$("#chooseNature ul").html(nat.join "")
 pc.updateBinding()
 
 # event bindings
@@ -251,3 +252,10 @@ $(".harm li").on "click", (e) ->
 
 $(".marks button").on "click", (e) ->
   $(this).attr("disabled", "disabled").contents().wrap("<strike></strike>")
+
+$("#chooseNature button").on "click", (e) ->
+  nature = $(this).attr("value")
+  pc.assignNature(natures[nature])
+  pc.updateBinding()
+  location.hash = "char"
+  false

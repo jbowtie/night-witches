@@ -24,6 +24,9 @@
 
         <!-- Add your site or application content here -->
         <!-- div data-role="page" id="chooseChar">
+        </div -->
+        <div data-role="page" id="chooseNature">
+            <h1 data-role="header">Choose your Nature</h1>
             <div class="ui-content">
                 <ul data-role="listview">
                     <li><button>Hawk</button></li>
@@ -34,14 +37,22 @@
                 </ul>
             </div>
         </div>
-        <div data-role="page" id="chooseNature">
-        </div>
         <div data-role="page" id="chooseRankStats">
+            <h1 data-role="header">Rank and Stats</h1>
+            <div class="ui-content">
+                <p>Sergeants start with slightly higher stats, but Junior Lieutenants get to order them around.</p>
+            </div>
         </div>
         <div data-role="page" id="chooseName">
+            <div class="ui-content">
+                <p>Choose a name.</p>
+            </div>
         </div>
         <div data-role="page" id="chooseRole">
-        </div -->
+            <div class="ui-content">
+                <p>Choose a role.</p>
+            </div>
+        </div>
         <div data-role="page" id="char">
         <header class="ui-header ui-bar-inherit" role="banner">
             <h1 class="ui-header ui-bar-inherit"><span class="rank">Junior Lieutenant </span>Natasha Prokofiev</h1>
@@ -315,6 +326,7 @@
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>
     <script src="js/night.js"></script>
+    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <!-- script>
