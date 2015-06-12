@@ -99,7 +99,7 @@ header > *, p {
     font-size: 0.75em;
 }
 
-header h1 {
+h1 {
     padding:0.5rem;
     font-size: 1.5em;
     color: white;
@@ -159,7 +159,7 @@ section h2 {
     margin:0.5em 0;
 }
 
-.advance ul, .marks ul, .regard ul {
+.advance ul, .marks ul, .regard ul, .rank_0 ul, .rank_1 ul {
     margin: 0;
     padding: 0;
     list-style: none;

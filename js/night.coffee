@@ -257,5 +257,26 @@ $("#chooseNature button").on "click", (e) ->
   nature = $(this).attr("value")
   pc.assignNature(natures[nature])
   pc.updateBinding()
+  location.hash = "chooseRankStats"
+  false
+
+$(".rank_0 button"). on "click", (e) ->
+  pc.rank = 0
+  [g, l, s] = $(this).attr("value").split ","
+  pc.guts = parseInt(g)
+  pc.luck = parseInt(l)
+  pc.skill = parseInt(s)
+  pc.updateBinding()
   location.hash = "char"
   false
+
+$(".rank_1 button"). on "click", (e) ->
+  pc.rank = 1
+  [g, l, s] = $(this).attr("value").split ","
+  pc.guts = parseInt(g)
+  pc.luck = parseInt(l)
+  pc.skill = parseInt(s)
+  pc.updateBinding()
+  location.hash = "char"
+  false
+

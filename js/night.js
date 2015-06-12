@@ -320,6 +320,30 @@
     nature = $(this).attr("value");
     pc.assignNature(natures[nature]);
     pc.updateBinding();
+    location.hash = "chooseRankStats";
+    return false;
+  });
+
+  $(".rank_0 button").on("click", function(e) {
+    var g, l, s, _ref;
+    pc.rank = 0;
+    _ref = $(this).attr("value").split(","), g = _ref[0], l = _ref[1], s = _ref[2];
+    pc.guts = parseInt(g);
+    pc.luck = parseInt(l);
+    pc.skill = parseInt(s);
+    pc.updateBinding();
+    location.hash = "char";
+    return false;
+  });
+
+  $(".rank_1 button").on("click", function(e) {
+    var g, l, s, _ref;
+    pc.rank = 1;
+    _ref = $(this).attr("value").split(","), g = _ref[0], l = _ref[1], s = _ref[2];
+    pc.guts = parseInt(g);
+    pc.luck = parseInt(l);
+    pc.skill = parseInt(s);
+    pc.updateBinding();
     location.hash = "char";
     return false;
   });
