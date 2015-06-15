@@ -203,6 +203,26 @@
       return this.rebindNatureButtons();
     };
 
+    Witch.prototype.updateNatureMoves = function() {
+      var m, moves;
+      $(".naturemove").remove();
+      moves = (function() {
+        var _i, _len, _ref, _ref1, _results;
+        _ref = this.nature.moves;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          m = _ref[_i];
+          if (_ref1 = m.name, __indexOf.call(this.moves, _ref1) >= 0) {
+            _results.push("<li class='naturemove ui-li-static ui-body-inherit'><h3>" + m.name + "</h3><p>" + m.desc + "</p></li>");
+          } else {
+            _results.push("");
+          }
+        }
+        return _results;
+      }).call(this);
+      return $(".nm_header").after(moves.join(""));
+    };
+
     Witch.prototype.rebindNatureButtons = function() {
       var i, m, marks, maxRegard, mk, moves, reg, regardslots, _ref;
       moves = (function() {
@@ -260,6 +280,7 @@
         this[k] = v;
       }
       this.rebindNatureButtons();
+      this.updateNatureMoves();
       return this.updateBinding();
     };
 
@@ -399,6 +420,7 @@
     pc.moves.push(val);
     $(this).attr("disabled", "disabled");
     pc.save();
+    pc.updateNatureMoves();
     return false;
   });
 

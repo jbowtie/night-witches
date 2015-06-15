@@ -1,12 +1,9 @@
 document.title="Night Witches"
 # TODO list:
-#   advance - add move
-#   disable move button, add to move panel
-#   update move button generation, move panel area for char moves on load
 #   save regard info on update
 #   populate regard info on load
 #   formatting of 'choose char' page
-#   format of choos role
+#   format of choose role
 #   missing special move text
 #   missing roles
 #   generate random name
@@ -185,6 +182,14 @@ class Witch
     $("footer p:first").html("Rolled #{d1} + #{d2} + #{stat} = <strong>#{newVal}</strong>") #.effect("highlight")
   assignNature: (@nature) ->
     @rebindNatureButtons()
+  updateNatureMoves: ->
+    $(".naturemove").remove()
+    moves = for m in @nature.moves
+      if m.name in @moves
+        "<li class='naturemove ui-li-static ui-body-inherit'><h3>#{m.name}</h3><p>#{m.desc}</p></li>"
+      else
+        ""
+    $(".nm_header").after(moves.join "")  
   rebindNatureButtons: ->
     moves = for m in @nature.moves
       if m.name in @moves
@@ -210,6 +215,7 @@ class Witch
     for k, v of vals
       @[k] = v
     @rebindNatureButtons()
+    @updateNatureMoves()
     @updateBinding()
 
 pc = new Witch()
@@ -315,6 +321,7 @@ $("#adv_moves").on "click", ".addmove", (e) ->
   pc.moves.push(val)
   $(this).attr("disabled", "disabled")
   pc.save()
+  pc.updateNatureMoves()
   false
 
 $("#chooseNature button").on "click", (e) ->
