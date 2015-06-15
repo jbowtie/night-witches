@@ -188,7 +188,7 @@ class Witch
   rebindNatureButtons: ->
     moves = for m in @nature.moves
       if m.name in @moves
-        "<button class='addmove' value='#{m.name}' disabled='disabled'><strike><strong>#{m.name}:</strong> #{m.desc}</strike></button>"
+        "<button class='addmove' value='#{m.name}' disabled='disabled'><strong>#{m.name}:</strong> #{m.desc}</button>"
       else
         "<button class='addmove' value='#{m.name}'><strong>#{m.name}:</strong> #{m.desc}</button>"
     $("#adv_moves").html(moves.join "")
@@ -313,7 +313,7 @@ $(".marks").on "click", "button", (e) ->
 $("#adv_moves").on "click", ".addmove", (e) ->
   val = $(this).attr("value")
   pc.moves.push(val)
-  $(this).attr("disabled", "disabled").contents().wrap("<strike></strike>")
+  $(this).attr("disabled", "disabled")
   pc.save()
   false
 

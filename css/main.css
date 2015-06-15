@@ -192,7 +192,7 @@ button:disabled {
   color: #999;
 }
 
-.marks button:disabled {
+.marks button:disabled, .addmove:disabled {
   color: #555;
   text-decoration:line-through !important;
 }

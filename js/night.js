@@ -212,7 +212,7 @@
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           m = _ref[_i];
           if (_ref1 = m.name, __indexOf.call(this.moves, _ref1) >= 0) {
-            _results.push("<button class='addmove' value='" + m.name + "' disabled='disabled'><strike><strong>" + m.name + ":</strong> " + m.desc + "</strike></button>");
+            _results.push("<button class='addmove' value='" + m.name + "' disabled='disabled'><strong>" + m.name + ":</strong> " + m.desc + "</button>");
           } else {
             _results.push("<button class='addmove' value='" + m.name + "'><strong>" + m.name + ":</strong> " + m.desc + "</button>");
           }
@@ -397,7 +397,7 @@
     var val;
     val = $(this).attr("value");
     pc.moves.push(val);
-    $(this).attr("disabled", "disabled").contents().wrap("<strike></strike>");
+    $(this).attr("disabled", "disabled");
     pc.save();
     return false;
   });
