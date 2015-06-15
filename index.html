@@ -22,9 +22,12 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <!-- Add your site or application content here -->
-        <!-- div data-role="page" id="chooseChar">
-        </div -->
+        <div data-role="page" id="chooseChar">
+            <h1 data-role="header">Characters (stored in browser)</h1>
+            <ul>
+                <li><button id="addNew" data-icon="plus">Add...</button></li>
+            </ul>
+        </div>
         <div data-role="page" id="chooseNature">
             <h1 data-role="header">Choose your Nature</h1>
             <div class="ui-content">
@@ -60,16 +63,20 @@
         <div data-role="page" id="chooseName">
             <div class="ui-content">
                 <p>Choose a name.</p>
+                <input type="text" id="pcName" />
+                <button id="genName">Generate</button>
+                <button id="acceptName">Accept</button>
             </div>
         </div>
         <div data-role="page" id="chooseRole">
             <div class="ui-content">
                 <p>Choose a role.</p>
+                <ul></ul>
             </div>
         </div>
         <div data-role="page" id="char">
         <header class="ui-header ui-bar-inherit" role="banner">
-            <h1 class="ui-header ui-bar-inherit"><span class="rank">Junior Lieutenant </span>Natasha Prokofiev</h1>
+            <h1 class="ui-header ui-bar-inherit"><span class="rank">Rank </span>Character Name</h1>
             <a href="#move_panel" class="ui-btn ui-btn-icon-notext ui-icon-bars ui-btn-right">Moves</a>
             <div data-role="navbar">
                 <ul>
@@ -81,7 +88,7 @@
             </div>
         </header>
         <form class="ui-content">
-            <p><em id="nat_role">Sparrow Zealot</em> -- You can help the section during <strong>Debrief</strong> by criticizing a fellow airwoman.</p>
+            <p><em id="nat_role">Nature Role</em> -- <span class="role_desc">Role desc</span></p>
         <section class="stats">
             <h2>Stats</h2>
             <button id="guts">Guts <span></span></button>

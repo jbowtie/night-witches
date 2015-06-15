@@ -1,6 +1,17 @@
 document.title="Night Witches"
-
-# localStorage[key] for DOM storage
+# TODO list:
+#   advance - add move
+#   disable move button, add to move panel
+#   update move button generation, move panel area for char moves on load
+#   save regard info on update
+#   populate regard info on load
+#   formatting of 'choose char' page
+#   missing special move text
+#   generate random name
+#   save/load harm info
+#   layout on tablet screen?
+#   deploy to server as static html site!
+#   push to github (after git-author-rewrite script!)
 
 formatStat = (num) ->
   if num < 0
@@ -131,6 +142,9 @@ natures =
       "Tell a story of home.",
       "Embrace Death and face your final destiny.",]
   }
+roles = [
+  {name:"Adventurer", desc:"You are awesome."},
+  {name:"Zealot", desc: "You can help the section during <strong>Debrief</strong> by criticizing a fellow airwoman."},]
 
 class Witch
   constructor: ->
@@ -141,15 +155,17 @@ class Witch
     @skill = 0
     @medals = 0
     @regard = 0
+    @marks = []
   updateBinding: ->
     $("header h1").html("<span class='rank'>#{ranks[@rank]} </span>#{@name}")
-    $("#nat_role").text("#{@nature?.name} Zealot")
+    $("#nat_role").text("#{@nature?.name} #{@role?.name}")
+    $(".role_desc").html(@role?.desc)
     $("#guts span").text(formatStat @guts)
     $("#luck span").text(formatStat @luck)
     $("#skill span").text(formatStat @skill)
     $("#medals span").text(formatStat @medals)
     if @medals >= 4
-      $("#plusmedal").attr('disabled', 'disabled') 
+      $("#plusmedal").attr('disabled', 'disabled')
     else
       $("#plusmedal").removeAttr('disabled')
     maxPromo = @nature?.maxPromo ? 4
@@ -158,32 +174,56 @@ class Witch
     $("#promoskill").attr('disabled', 'disabled') if @skill >= 3 or @promos >= maxPromo
     maxRegard = @nature?.maxRegard ? 4
     $("#addregard").attr('disabled', 'disabled') if @regard >= maxRegard
+    $("#changestation").attr("disabled", "disabled") if pc.station? is true
   rollStat: (stat) ->
     d1 = Math.floor Math.random() * 6 + 1
     d2 = Math.floor Math.random() * 6 + 1
     newVal = d1 + d2 + @[stat]
     $("footer p:first").html("Rolled #{d1} + #{d2} + #{stat} = <strong>#{newVal}</strong>") #.effect("highlight")
   assignNature: (@nature) ->
+    @rebindNatureButtons()
+  rebindNatureButtons: ->
     moves = for m in @nature.moves
       "<button class='addmove'><strong>#{m.name}:</strong> #{m.desc}</button>"
     $("#adv_moves").html(moves.join "")
     marks = for mk in @nature.marks
-      "<button>#{mk}</button>"
+      if mk in @marks
+        "<button disabled='disabled'><strike>#{mk}</strike></button>"
+      else
+        "<button>#{mk}</button>"
     $("#adv_marks").html(marks.join "")
     maxRegard = @nature.maxRegard ? 4
     regardslots = $('.regard .ui-content ul')
-    reg = for i in [0...maxRegard]
+    reg = for i in [@regard...maxRegard]
       "<li class='locked'>LOCKED</li>"
     regardslots.html(reg.join "")
+  save: ->
+    localStorage[@name] = JSON.stringify @
+  load: (key) ->
+    vals = JSON.parse(localStorage[key])
+    for k, v of vals
+      @[k] = v
+    @rebindNatureButtons()
+    @updateBinding()
 
 pc = new Witch()
-pc.name = "Natasha Romanov"
 
 # on load?
-nat = for k, v of natures
-  "<li><button value='#{k}'>#{v.name}</button></li>"
-$("#chooseNature ul").html(nat.join "")
-pc.updateBinding()
+loadUI = ->
+  nat = for k, v of natures
+    "<li><button value='#{k}'>#{v.name}</button></li>"
+  $("#chooseNature ul").html(nat.join "")
+  uiroles = for r, ri in roles
+    "<li><button value='#{ri}'>#{r.name}</button></li>"
+  $("#chooseRole ul").html(uiroles.join "")
+  chars = for c,ci in localStorage
+    k = localStorage.key ci
+    cinfo = JSON.parse(localStorage[k])
+    "<li><button value='#{k}' class='pcload'>#{cinfo.name}</button></li>"
+  $("#addNew").before(chars.join "")
+  # pc.updateBinding()
+
+loadUI()
 
 # event bindings
 $(".stats button").on "click", (e) ->
@@ -200,6 +240,7 @@ $("#plusmedal").on "click", (e) ->
   location.hash = "char"
   pc.medals += 1
   pc.updateBinding()
+  pc.save()
   false
 
 $("#promoguts").on "click", (e) ->
@@ -208,6 +249,7 @@ $("#promoguts").on "click", (e) ->
   pc.rank += 1
   pc.promos += 1
   pc.updateBinding()
+  pc.save()
   false
 
 $("#promoluck").on "click", (e) ->
@@ -216,6 +258,7 @@ $("#promoluck").on "click", (e) ->
   pc.rank += 1
   pc.promos += 1
   pc.updateBinding()
+  pc.save()
   false
 
 $("#promoskill").on "click", (e) ->
@@ -224,6 +267,7 @@ $("#promoskill").on "click", (e) ->
   pc.rank += 1
   pc.promos += 1
   pc.updateBinding()
+  pc.save()
   false
 
 
@@ -238,11 +282,14 @@ $("#addregard").on "click", (e) ->
   regardTemplate="<div data-role='controlgroup' data-type='horizontal'> <select>#{v}</select> <input type='text' data-wrapper-class='controlgroup-textinput ui-btn' placeholder='Person or airplane' /> </div>"
   $(".regard li.locked:first").removeClass("locked").html(regardTemplate).find("div").controlgroup().find("select").selectmenu().end().find("input").textinput()
   pc.updateBinding()
+  pc.save()
   false
 
 # can only be taken once per campaign
 $("#changestation").on "click", (e) ->
-  $(this).attr("disabled", "disabled")
+  pc.station = true
+  pc.updateBinding()
+  pc.save()
   location.hash = "char"
 
 $(".harm li").on "click", (e) ->
@@ -250,8 +297,13 @@ $(".harm li").on "click", (e) ->
   $(this).addClass("curr")
   false
 
-$(".marks button").on "click", (e) ->
+$(".marks").on "click", "button", (e) ->
+  val = $(this).text()
+  pc.marks.push(val)
+  console.log(pc.marks)
   $(this).attr("disabled", "disabled").contents().wrap("<strike></strike>")
+  pc.save()
+  false
 
 $("#chooseNature button").on "click", (e) ->
   nature = $(this).attr("value")
@@ -267,7 +319,7 @@ $(".rank_0 button"). on "click", (e) ->
   pc.luck = parseInt(l)
   pc.skill = parseInt(s)
   pc.updateBinding()
-  location.hash = "char"
+  location.hash = "chooseName"
   false
 
 $(".rank_1 button"). on "click", (e) ->
@@ -277,6 +329,31 @@ $(".rank_1 button"). on "click", (e) ->
   pc.luck = parseInt(l)
   pc.skill = parseInt(s)
   pc.updateBinding()
+  location.hash = "chooseName"
+  false
+
+$("#acceptName").on "click", (e) ->
+    pc.name = $("#pcName").val()
+    pc.updateBinding()
+    location.hash = "chooseRole"
+    false
+
+$("#chooseRole button").on "click", (e) ->
+  role = $(this).attr("value")
+  pc.role = roles[parseInt(role)]
+  pc.updateBinding()
+  pc.save()
   location.hash = "char"
   false
 
+$("#addNew").on "click", (e) ->
+  pc = new Witch()
+  location.hash = "chooseNature"
+  false
+
+$(".pcload").on "click", (e) ->
+  pc = new Witch()
+  key = $(this).attr("value")
+  pc.load(key)
+  location.hash = "char"
+  false
