@@ -194,6 +194,7 @@ button:disabled {
 
 .marks button:disabled {
   color: #555;
+  text-decoration:line-through !important;
 }
 
 li.locked {

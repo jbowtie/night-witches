@@ -154,6 +154,7 @@
       this.medals = 0;
       this.regard = 0;
       this.marks = [];
+      this.moves = [];
     }
 
     Witch.prototype.updateBinding = function() {
@@ -205,12 +206,16 @@
     Witch.prototype.rebindNatureButtons = function() {
       var i, m, marks, maxRegard, mk, moves, reg, regardslots, _ref;
       moves = (function() {
-        var _i, _len, _ref, _results;
+        var _i, _len, _ref, _ref1, _results;
         _ref = this.nature.moves;
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           m = _ref[_i];
-          _results.push("<button class='addmove'><strong>" + m.name + ":</strong> " + m.desc + "</button>");
+          if (_ref1 = m.name, __indexOf.call(this.moves, _ref1) >= 0) {
+            _results.push("<button class='addmove' value='" + m.name + "' disabled='disabled'><strike><strong>" + m.name + ":</strong> " + m.desc + "</strike></button>");
+          } else {
+            _results.push("<button class='addmove' value='" + m.name + "'><strong>" + m.name + ":</strong> " + m.desc + "</button>");
+          }
         }
         return _results;
       }).call(this);
@@ -222,7 +227,7 @@
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           mk = _ref[_i];
           if (__indexOf.call(this.marks, mk) >= 0) {
-            _results.push("<button disabled='disabled'><strike>" + mk + "</strike></button>");
+            _results.push("<button disabled='disabled'>" + mk + "</button>");
           } else {
             _results.push("<button>" + mk + "</button>");
           }
@@ -383,7 +388,15 @@
     var val;
     val = $(this).text();
     pc.marks.push(val);
-    console.log(pc.marks);
+    $(this).attr("disabled", "disabled");
+    pc.save();
+    return false;
+  });
+
+  $("#adv_moves").on("click", ".addmove", function(e) {
+    var val;
+    val = $(this).attr("value");
+    pc.moves.push(val);
     $(this).attr("disabled", "disabled").contents().wrap("<strike></strike>");
     pc.save();
     return false;

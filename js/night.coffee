@@ -6,7 +6,9 @@ document.title="Night Witches"
 #   save regard info on update
 #   populate regard info on load
 #   formatting of 'choose char' page
+#   format of choos role
 #   missing special move text
+#   missing roles
 #   generate random name
 #   save/load harm info
 #   layout on tablet screen?
@@ -156,6 +158,7 @@ class Witch
     @medals = 0
     @regard = 0
     @marks = []
+    @moves = []
   updateBinding: ->
     $("header h1").html("<span class='rank'>#{ranks[@rank]} </span>#{@name}")
     $("#nat_role").text("#{@nature?.name} #{@role?.name}")
@@ -184,11 +187,14 @@ class Witch
     @rebindNatureButtons()
   rebindNatureButtons: ->
     moves = for m in @nature.moves
-      "<button class='addmove'><strong>#{m.name}:</strong> #{m.desc}</button>"
+      if m.name in @moves
+        "<button class='addmove' value='#{m.name}' disabled='disabled'><strike><strong>#{m.name}:</strong> #{m.desc}</strike></button>"
+      else
+        "<button class='addmove' value='#{m.name}'><strong>#{m.name}:</strong> #{m.desc}</button>"
     $("#adv_moves").html(moves.join "")
     marks = for mk in @nature.marks
       if mk in @marks
-        "<button disabled='disabled'><strike>#{mk}</strike></button>"
+        "<button disabled='disabled'>#{mk}</button>"
       else
         "<button>#{mk}</button>"
     $("#adv_marks").html(marks.join "")
@@ -300,7 +306,13 @@ $(".harm li").on "click", (e) ->
 $(".marks").on "click", "button", (e) ->
   val = $(this).text()
   pc.marks.push(val)
-  console.log(pc.marks)
+  $(this).attr("disabled", "disabled")
+  pc.save()
+  false
+
+$("#adv_moves").on "click", ".addmove", (e) ->
+  val = $(this).attr("value")
+  pc.moves.push(val)
   $(this).attr("disabled", "disabled").contents().wrap("<strike></strike>")
   pc.save()
   false
