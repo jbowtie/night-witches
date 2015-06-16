@@ -1,16 +1,14 @@
 document.title="Night Witches"
 # TODO list:
-#   save regard info on update
-#   populate regard info on load
-#   formatting of 'choose char' page
 #   format of choose role
-#   missing special move text
 #   missing roles
+#   missing special move text
 #   generate random name
 #   save/load harm info
 #   layout on tablet screen?
 #   deploy to server as static html site!
 #   push to github (after git-author-rewrite script!)
+#   add delete character support
 
 formatStat = (num) ->
   if num < 0
@@ -153,7 +151,7 @@ class Witch
     @luck = 0
     @skill = 0
     @medals = 0
-    @regard = 0
+    @regard = []
     @marks = []
     @moves = []
   updateBinding: ->
@@ -190,6 +188,20 @@ class Witch
       else
         ""
     $(".nm_header").after(moves.join "")  
+  buildRegardSlots: ->
+    maxRegard = @nature.maxRegard ? 4
+    regardslots = $('.regard .ui-content ul')
+    regardslots.empty()
+    vals = for f in feels
+      "<option>#{f}</option>"
+    v = vals.join ""
+    for r in @regard
+      r2 = "<li><div data-role='controlgroup' data-type='horizontal'><select>#{v}</select><input type='text' data-wrapper-class='controlgroup-textinput ui-btn' placeholder='Person or airplane' /> </div></li>"
+      regardslots.append(r2)
+      regardslots.find("div:last").controlgroup().find("select").val(r.feeling).selectmenu("refresh", true).end().find("input").val(r.target).textinput()
+    reg = for i in [@regard.length...maxRegard]
+      "<li class='locked'>LOCKED</li>"
+    regardslots.append(reg.join "")
   rebindNatureButtons: ->
     moves = for m in @nature.moves
       if m.name in @moves
@@ -203,11 +215,7 @@ class Witch
       else
         "<button>#{mk}</button>"
     $("#adv_marks").html(marks.join "")
-    maxRegard = @nature.maxRegard ? 4
-    regardslots = $('.regard .ui-content ul')
-    reg = for i in [@regard...maxRegard]
-      "<li class='locked'>LOCKED</li>"
-    regardslots.html(reg.join "")
+    @buildRegardSlots()
   save: ->
     localStorage[@name] = JSON.stringify @
   load: (key) ->
@@ -231,7 +239,7 @@ loadUI = ->
   chars = for c,ci in localStorage
     k = localStorage.key ci
     cinfo = JSON.parse(localStorage[k])
-    "<li><button value='#{k}' class='pcload'>#{cinfo.name}</button></li>"
+    "<li><button value='#{k}' class='pcload'><small>#{ranks[cinfo.rank]}</small><br/>#{cinfo.name}</button></li>"
   $("#addNew").before(chars.join "")
   # pc.updateBinding()
 
@@ -286,7 +294,8 @@ $("#promoskill").on "click", (e) ->
 
 $("#addregard").on "click", (e) ->
   location.hash = "regard"
-  pc.regard += 1
+  newSlot = feeling: "love", target: ""
+  pc.regard.push(newSlot)
   vals = for f in feels
     "<option>#{f}</option>"
   v = vals.join ""
@@ -375,4 +384,16 @@ $(".pcload").on "click", (e) ->
   key = $(this).attr("value")
   pc.load(key)
   location.hash = "char"
+  false
+
+$(".regard ul").on "change", "input", (e) ->
+  index = $(this).closest("li").prevAll().length
+  pc.regard[index].target=$(this).val()
+  pc.save()
+  false
+
+$(".regard ul").on "change", "select", (e) ->
+  index = $(this).closest("li").prevAll().length
+  pc.regard[index].feeling=$(this).val()
+  pc.save()
   false

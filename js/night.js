@@ -152,7 +152,7 @@
       this.luck = 0;
       this.skill = 0;
       this.medals = 0;
-      this.regard = 0;
+      this.regard = [];
       this.marks = [];
       this.moves = [];
     }
@@ -223,8 +223,41 @@
       return $(".nm_header").after(moves.join(""));
     };
 
+    Witch.prototype.buildRegardSlots = function() {
+      var f, i, maxRegard, r, r2, reg, regardslots, v, vals, _i, _len, _ref, _ref1;
+      maxRegard = (_ref = this.nature.maxRegard) != null ? _ref : 4;
+      regardslots = $('.regard .ui-content ul');
+      regardslots.empty();
+      vals = (function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = feels.length; _i < _len; _i++) {
+          f = feels[_i];
+          _results.push("<option>" + f + "</option>");
+        }
+        return _results;
+      })();
+      v = vals.join("");
+      _ref1 = this.regard;
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        r = _ref1[_i];
+        r2 = "<li><div data-role='controlgroup' data-type='horizontal'><select>" + v + "</select><input type='text' data-wrapper-class='controlgroup-textinput ui-btn' placeholder='Person or airplane' /> </div></li>";
+        regardslots.append(r2);
+        regardslots.find("div:last").controlgroup().find("select").val(r.feeling).selectmenu("refresh", true).end().find("input").val(r.target).textinput();
+      }
+      reg = (function() {
+        var _j, _ref2, _results;
+        _results = [];
+        for (i = _j = _ref2 = this.regard.length; _ref2 <= maxRegard ? _j < maxRegard : _j > maxRegard; i = _ref2 <= maxRegard ? ++_j : --_j) {
+          _results.push("<li class='locked'>LOCKED</li>");
+        }
+        return _results;
+      }).call(this);
+      return regardslots.append(reg.join(""));
+    };
+
     Witch.prototype.rebindNatureButtons = function() {
-      var i, m, marks, maxRegard, mk, moves, reg, regardslots, _ref;
+      var m, marks, mk, moves;
       moves = (function() {
         var _i, _len, _ref, _ref1, _results;
         _ref = this.nature.moves;
@@ -255,17 +288,7 @@
         return _results;
       }).call(this);
       $("#adv_marks").html(marks.join(""));
-      maxRegard = (_ref = this.nature.maxRegard) != null ? _ref : 4;
-      regardslots = $('.regard .ui-content ul');
-      reg = (function() {
-        var _i, _ref1, _results;
-        _results = [];
-        for (i = _i = _ref1 = this.regard; _ref1 <= maxRegard ? _i < maxRegard : _i > maxRegard; i = _ref1 <= maxRegard ? ++_i : --_i) {
-          _results.push("<li class='locked'>LOCKED</li>");
-        }
-        return _results;
-      }).call(this);
-      return regardslots.html(reg.join(""));
+      return this.buildRegardSlots();
     };
 
     Witch.prototype.save = function() {
@@ -319,7 +342,7 @@
         c = localStorage[ci];
         k = localStorage.key(ci);
         cinfo = JSON.parse(localStorage[k]);
-        _results.push("<li><button value='" + k + "' class='pcload'>" + cinfo.name + "</button></li>");
+        _results.push("<li><button value='" + k + "' class='pcload'><small>" + ranks[cinfo.rank] + "</small><br/>" + cinfo.name + "</button></li>");
       }
       return _results;
     })();
@@ -372,9 +395,13 @@
   });
 
   $("#addregard").on("click", function(e) {
-    var f, regardTemplate, v, vals;
+    var f, newSlot, regardTemplate, v, vals;
     location.hash = "regard";
-    pc.regard += 1;
+    newSlot = {
+      feeling: "love",
+      target: ""
+    };
+    pc.regard.push(newSlot);
     vals = (function() {
       var _i, _len, _results;
       _results = [];
@@ -486,6 +513,22 @@
     key = $(this).attr("value");
     pc.load(key);
     location.hash = "char";
+    return false;
+  });
+
+  $(".regard ul").on("change", "input", function(e) {
+    var index;
+    index = $(this).closest("li").prevAll().length;
+    pc.regard[index].target = $(this).val();
+    pc.save();
+    return false;
+  });
+
+  $(".regard ul").on("change", "select", function(e) {
+    var index;
+    index = $(this).closest("li").prevAll().length;
+    pc.regard[index].feeling = $(this).val();
+    pc.save();
     return false;
   });
 

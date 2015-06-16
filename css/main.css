@@ -159,7 +159,7 @@ section h2 {
     margin:0.5em 0;
 }
 
-.advance ul, .marks ul, .regard ul, .rank_0 ul, .rank_1 ul {
+#chooseChar ul, .advance ul, .marks ul, .regard ul, .rank_0 ul, .rank_1 ul {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -171,6 +171,10 @@ section h2 {
     background: #EEE;
     padding: 0.5rem;
     cursor: pointer;
+}
+
+#chooseChar button {
+    text-align: left;
 }
 
 .advance p
