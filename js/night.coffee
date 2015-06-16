@@ -1,11 +1,11 @@
 document.title="Night Witches"
 # TODO list:
-#   generate random name
 #   save/load harm info
-#   allow role change
 #   layout on tablet screen?
 #   deploy to server as static html site!
 #   push to github (after git-author-rewrite script!)
+#   enforce maxmoves
+#   allow foreign character move
 #   add delete character support
 
 formatStat = (num) ->
@@ -145,6 +145,111 @@ roles = [
   {name:"Protector", desc:"You can <strong>Repair</strong> well."},
   {name:"Zealot", desc: "You can help the section during <strong>Debrief</strong> by criticizing a fellow airwoman."},]
 
+generateName = ->
+  givenNames = ["Evgeniya (Zhenya)",
+  "Galina (Galya)",
+  "Olga (Olya)",
+  "Alexandra (Sasha)",
+  "Yekaterina (Katya)",
+  "Elena (Lena)",
+  "Irina (Ira)",
+  "Elizaveta (Liza)",
+  "Lyudmila (Lyuda)",
+  "Svetlana (Sveta)",
+  "Natalya (Natasha)",
+  "Lyubov (Lyuba)",
+  "Yuliya (Yulya)",
+  "Tatyana (Tanya)",
+  "Ksenya (Ksyusha)",
+  "Valentina (Valya)",
+  "Mariya (Masha)",
+  "Anastasiya (Nastya)",
+  "Darya (Dasha)",
+  "Anna (Anka)",
+  "Larisa (Lara)",
+  "Tamara (Toma)",
+  "Yelena (Lena)",
+  "Oksana (Ksana)",
+  "Vera (Veruschka)",
+  "Nadezhda (Nadya)",
+  "Sofia (Sonya)",
+  "Marina",
+  "Polina (Polya)",
+  "Valeria (Lira)",
+  "Diana (Dina)",
+  "Alyona (Alya)",
+  "Nina (Ninochka)",
+  ]
+  surnames = ["Unvarova",
+  "Shchepkina",
+  "Yubkina",
+  "Alexandrova",
+  "Ventseslava",
+  "Zavorokhina",
+  "Avdeyeva",
+  "Yegorova",
+  "Kuznetsova",
+  "Petrova",
+  "Berezovskya",
+  "Zubova",
+  "Andreyeva",
+  "Bobkova",
+  "Golovina",
+  "Yusupova",
+  "Trushina",
+  "Sheremeteva",
+  "Vavilova",
+  "Zubareva",
+  "Isayeva",
+  "Kazakova",
+  "Vyrpayeva",
+  "Kurdina",
+  "Moskvina",
+  "Rudina",
+  "Samsonova",
+  "Batkina",
+  "Grishina",
+  "Usilova",
+  "Filipova",
+  "Khramova",
+  "Tsvetkova",
+  "Chazova",
+  "Nemtseva",
+  "Lyugashova",
+  "Meladina",
+  "Dezhnyova",
+  "Yermolayeva",
+  "Zhurova",
+  "Malinovskya",
+  "Gordievskya",
+  "Vorapaeva",
+  "Kryukova",
+  "Stepnova",
+  "Toropova",
+  "Myasnikova",
+  "Primakova",
+  "Rezansova",
+  "Chernova",
+  "Shirmanova",
+  "Osina",
+  "Papanova",
+  "Pomelova",
+  "Kirsanova",
+  "Lavrova",
+  "Shmeleva",
+  "Mirova",
+  "Fomenkova",
+  "Maltseva",
+  "Burtsova",
+  "Stezhenskya",
+  "Fedorova",
+  "Vasilievskya",
+  "Turbina",
+  ] 
+  gn = givenNames[Math.floor(Math.random() * givenNames.length)];
+  sn = surnames[Math.floor(Math.random() * surnames.length)];
+  "#{gn} #{sn}"
+
 class Witch
   constructor: ->
     @rank = 0
@@ -179,7 +284,7 @@ class Witch
     d1 = Math.floor Math.random() * 6 + 1
     d2 = Math.floor Math.random() * 6 + 1
     newVal = d1 + d2 + @[stat]
-    $("footer p:first").html("Rolled #{d1} + #{d2} + #{stat} = <strong>#{newVal}</strong>") #.effect("highlight")
+    $("footer p:first").html("Rolled #{d1} + #{d2} + #{stat} = <strong>#{newVal}</strong> (+1 if Regard applies)") #.effect("highlight")
   assignNature: (@nature) ->
     @rebindNatureButtons()
   updateNatureMoves: ->
@@ -362,6 +467,9 @@ $(".rank_1 button"). on "click", (e) ->
   location.hash = "chooseName"
   false
 
+$("#genName").on "click", (e) ->
+    $("#pcName").val generateName
+
 $("#acceptName").on "click", (e) ->
     pc.name = $("#pcName").val()
     pc.updateBinding()
@@ -378,15 +486,15 @@ $("#chooseRole button").on "click", (e) ->
 
 $("#addNew").on "click", (e) ->
   pc = new Witch()
+  $("#pcName").val generateName
   location.hash = "chooseNature"
   false
 
-$(".pcload").on "click", (e) ->
+$("#chooseChar ul").on "click", ".pcload", (e) ->
   pc = new Witch()
   key = $(this).attr("value")
   pc.load(key)
   location.hash = "char"
-  false
 
 $(".regard ul").on "change", "input", (e) ->
   index = $(this).closest("li").prevAll().length

@@ -101,7 +101,8 @@ header > *, p {
 
 h1 {
     padding:0.5rem;
-    font-size: 1.5em;
+    line-height: 1.5em;
+    font-size: 1.2em;
     color: white;
     background: #555;
     margin:0;
@@ -110,8 +111,12 @@ h1 {
 
 header h1 span {
      display:block;
-     font-size:0.5em;
-     font-variant: capitalize;
+     font-size:0.75em;
+     font-variant: small-caps;
+}
+
+.pcload small {
+     font-variant: small-caps;
 }
 
 section, footer {

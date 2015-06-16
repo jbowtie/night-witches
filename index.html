@@ -24,10 +24,12 @@
 
         <div data-role="page" id="chooseChar">
             <h1 data-role="header">Characters</h1>
+            <div class="ui-content">
             <p>Characters are stored in your browser, not on the server.</p>
             <ul>
                 <li><button id="addNew" data-icon="plus">Add...</button></li>
             </ul>
+            </div>
         </div>
         <div data-role="page" id="chooseNature">
             <h1 data-role="header">Choose your Nature</h1>
@@ -62,6 +64,7 @@
             </div>
         </div>
         <div data-role="page" id="chooseName">
+            <h1 data-role="header">Name</h1>
             <div class="ui-content">
                 <p>Choose a name.</p>
                 <input type="text" id="pcName" />
@@ -90,7 +93,7 @@
             </div>
         </header>
         <form class="ui-content">
-            <p><em id="nat_role">Nature Role</em> -- <span class="role_desc">Role desc</span></p>
+            <p><em id="nat_role">Nature Role</em> -- <span class="role_desc">Role desc</span> <a href="#chooseRole">Change role</a></p>
         <section class="stats">
             <h2>Stats</h2>
             <button id="guts">Guts <span></span></button>
@@ -111,7 +114,7 @@
         </form>
         <footer data-role="footer">
             <p>Click a stat to roll it here.</p>
-            <p><em>Regard</em> gives you +1 on related rolls.</p>
+            <p><a href="#chooseChar">Switch characters</a></p>
         </footer>
         <aside data-role="panel" data-position="right" id="move_panel" data-display="reveal" data-theme="b">
             <h2>Moves</h2>
