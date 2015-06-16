@@ -1,6 +1,5 @@
 document.title="Night Witches"
 # TODO list:
-#   missing special move text
 #   generate random name
 #   save/load harm info
 #   allow role change
