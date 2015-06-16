@@ -137,7 +137,19 @@
   roles = [
     {
       name: "Adventurer",
-      desc: "You are awesome."
+      desc: "You can bring a plane <strong>Wheels Down</strong> well."
+    }, {
+      name: "Dreamer",
+      desc: "You can weather an <strong>Informal Interview</strong> well."
+    }, {
+      name: "Leader",
+      desc: "You can lead an <strong>Attack Run</strong> well."
+    }, {
+      name: "Misanthrope",
+      desc: "You can <strong>Scrounge</strong> well."
+    }, {
+      name: "Protector",
+      desc: "You can <strong>Repair</strong> well."
     }, {
       name: "Zealot",
       desc: "You can help the section during <strong>Debrief</strong> by criticizing a fellow airwoman."
