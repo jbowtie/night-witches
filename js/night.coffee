@@ -1,12 +1,12 @@
 document.title="Night Witches"
 # TODO list:
-#   save/load harm info
 #   layout on tablet screen?
 #   deploy to server as static html site!
 #   push to github (after git-author-rewrite script!)
 #   enforce maxmoves
 #   allow foreign character move
 #   add delete character support
+#   save/load harm info
 
 formatStat = (num) ->
   if num < 0
@@ -325,6 +325,13 @@ class Witch
     @buildRegardSlots()
   save: ->
     localStorage[@name] = JSON.stringify @
+    existing = $(".pcload[value='#{@name}']")
+    if existing.length == 0
+      btn = "<li><button value='#{@name}' class='pcload ui-btn ui-shadow ui-corner-all'><small>#{ranks[@rank]}</small><br/>#{@name}</button></li>"
+      $("#addNew").before(btn)
+    else
+      existing.find("small").text(ranks[@rank])
+      
   load: (key) ->
     vals = JSON.parse(localStorage[key])
     for k, v of vals

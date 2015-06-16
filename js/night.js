@@ -313,7 +313,15 @@
     };
 
     Witch.prototype.save = function() {
-      return localStorage[this.name] = JSON.stringify(this);
+      var btn, existing;
+      localStorage[this.name] = JSON.stringify(this);
+      existing = $(".pcload[value='" + this.name + "']");
+      if (existing.length === 0) {
+        btn = "<li><button value='" + this.name + "' class='pcload ui-btn ui-shadow ui-corner-all'><small>" + ranks[this.rank] + "</small><br/>" + this.name + "</button></li>";
+        return $("#addNew").before(btn);
+      } else {
+        return existing.find("small").text(ranks[this.rank]);
+      }
     };
 
     Witch.prototype.load = function(key) {
