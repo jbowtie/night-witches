@@ -94,6 +94,11 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+body, input, select, textarea, button, .ui-btn {
+    font-family: Arimo, Arial, sans-serif;
+}
+
+
 header > *, p {
     padding: 0 0.5rem;
     font-size: 0.75em;
