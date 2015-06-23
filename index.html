@@ -17,7 +17,7 @@
         <script src="js/vendor/jquery-1.11.2.min.js"></script>
         <script src="js/vendor/jquery.mobile-1.4.5.min.js"></script>
     </head>
-    <body>
+    <body class="ui-responsive-panel">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -34,7 +34,12 @@
         <div data-role="page" id="chooseNature">
             <h1 data-role="header">Choose your Nature</h1>
             <div class="ui-content">
-                <ul data-role="listview">
+                <!-- button><img src="img/nwHawk.png">Hawk</button>
+                <button><img src="img/nwOwl.png">Owl</button>
+                <button><img src="img/nwPigeon.png">Pigeon</button>
+                <button><img src="img/nwRaven.png">Raven</button>
+                <button><img src="img/nwSparrow.png">Sparrow</button -->
+                <ul>
                     <li><button>Hawk</button></li>
                     <li><button>Owl</button></li>
                     <li><button>Pigeon</button></li>
@@ -53,12 +58,24 @@
                         <li><button value="1,0,0">Guts +1, Luck +0, Skill +0</button></li>
                         <li><button value="0,1,0">Guts +0, Luck +1, Skill +0</button></li>
                         <li><button value="0,0,1">Guts +0, Luck +0, Skill +1</button></li>
+                        <li><button value="2,0,-1">Guts +2, Luck +0, Skill -1</button></li>
+                        <li><button value="2,-1,0">Guts +2, Luck -1, Skill +0</button></li>
+                        <li><button value="0,2,-1">Guts +0, Luck +2, Skill -1</button></li>
+                        <li><button value="-1,2,0">Guts -1, Luck +2, Skill +0</button></li>
+                        <li><button value="0,-1,2">Guts +0, Luck -1, Skill +2</button></li>
+                        <li><button value="-1,0,2">Guts -1, Luck +0, Skill +2</button></li>
                     </ul>
                 </section>
                 <section class="rank_1">
                     <h2>Junior Lieutenant</h2>
                     <ul>
                         <li><button value="0,0,0">Guts +0, Luck +0, Skill +0</button></li>
+                        <li><button value="1,0,-1">Guts +1, Luck +0, Skill -1</button></li>
+                        <li><button value="1,-1,0">Guts +1, Luck -1, Skill +0</button></li>
+                        <li><button value="0,1,-1">Guts +0, Luck +1, Skill -1</button></li>
+                        <li><button value="-1,1,0">Guts -1, Luck +1, Skill +0</button></li>
+                        <li><button value="0,-1,1">Guts +0, Luck -1, Skill +1</button></li>
+                        <li><button value="-1,0,1">Guts -1, Luck +0, Skill +1</button></li>
                     </ul>
                 </section>
             </div>
@@ -399,7 +416,7 @@
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>
     <script src="js/night.js"></script>
-    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+    <!-- script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script -->
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <!-- script>

@@ -169,7 +169,7 @@ section h2 {
     margin:0.5em 0;
 }
 
-#chooseChar ul, #chooseRole ul, .advance ul, .marks ul, .regard ul, .rank_0 ul, .rank_1 ul {
+#chooseChar ul, #chooseRole ul, .advance ul, .marks ul, .regard ul, .rank_0 ul, .rank_1 ul, #chooseNature ul {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -185,6 +185,10 @@ section h2 {
 
 #chooseChar button {
     text-align: left;
+}
+
+#chooseNature button img {
+    height:28px;border:1px solid black;border-radius:15px;background:#fff;padding:2px;margin-right:2em;
 }
 
 .advance p
@@ -231,8 +235,6 @@ form.ui-content {
  so it appears in front of styled span + icon and gets clicks and keyboard
  but never appears!
 */
-.ui-regard .ui-select {
-}
 .regard .controlgroup-textinput {
  width:10.2em;
  padding:0.7em 0.5em;
@@ -250,6 +252,20 @@ form.ui-content {
     font-weight: normal;
     margin: 0 0 0.5em;
 }
+
+/*
+ * Notes on responsive changes
+ * ui-page-active -- may want to set max-width
+ *   margin-right to hold moves (at least 17em)
+ *   aside set width auto, visible, position absolutely
+ *   should be able to simply set aside { right:0, width: auto }
+ *   hide link to moves panel
+ * combine sheet/regard
+ * combine advance/marks
+ * alternatively add more context to said pages
+ * also add nature icons/watermarks to nature/char
+ */
+
 
 /* ==========================================================================
    Helper classes
