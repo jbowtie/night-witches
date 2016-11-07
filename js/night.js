@@ -313,8 +313,11 @@
     };
 
     Witch.prototype.save = function() {
+      return localforage.setItem(this.name, JSON.stringify(this)).then(this.postsave());
+    };
+
+    Witch.prototype.postsave = function() {
       var btn, existing;
-      localforage.setItem(this.name, JSON.stringify(this));
       existing = $(".pcload[value='" + this.name + "']");
       if (existing.length === 0) {
         btn = "<li><button value='" + this.name + "' class='pcload ui-btn ui-shadow ui-corner-all'><small>" + ranks[this.rank] + "</small><br/>" + this.name + "</button></li>";
@@ -325,15 +328,19 @@
     };
 
     Witch.prototype.load = function(key) {
-      var k, v, vals;
-      vals = JSON.parse(localforage[key]);
-      for (k in vals) {
-        v = vals[k];
-        this[k] = v;
-      }
-      this.rebindNatureButtons();
-      this.updateNatureMoves();
-      return this.updateBinding();
+      return localforage.getItem(key).then((function(_this) {
+        return function(value) {
+          var k, v, vals;
+          vals = JSON.parse(value);
+          for (k in vals) {
+            v = vals[k];
+            _this[k] = v;
+          }
+          _this.rebindNatureButtons();
+          _this.updateNatureMoves();
+          return _this.updateBinding();
+        };
+      })(this));
     };
 
     return Witch;
@@ -343,7 +350,7 @@
   pc = new Witch();
 
   loadUI = function() {
-    var c, chars, ci, cinfo, k, nat, r, ri, uiroles, v;
+    var chars, k, nat, r, ri, uiroles, v;
     nat = (function() {
       var results;
       results = [];
@@ -364,18 +371,14 @@
       return results;
     })();
     $("#chooseRole ul").html(uiroles.join(""));
-    chars = (function() {
-      var j, len, results;
-      results = [];
-      for (ci = j = 0, len = localforage.length; j < len; ci = ++j) {
-        c = localforage[ci];
-        k = localforage.key(ci);
-        cinfo = JSON.parse(localforage[k]);
-        results.push("<li><button value='" + k + "' class='pcload'><small>" + ranks[cinfo.rank] + "</small><br/>" + cinfo.name + "</button></li>");
-      }
-      return results;
-    })();
-    return $("#addNew").before(chars.join(""));
+    chars = [];
+    return localforage.iterate(function(c, k, num) {
+      var cinfo;
+      cinfo = JSON.parse(c);
+      chars.push("<li><button value='" + k + "' class='pcload'><small>" + ranks[cinfo.rank] + "</small><br/>" + cinfo.name + "</button></li>");
+    }).then(function() {
+      return $("#addNew").before(chars.join(""));
+    });
   };
 
   loadUI();

@@ -322,7 +322,8 @@ class Witch
     $("#adv_marks").html(marks.join "")
     @buildRegardSlots()
   save: ->
-    localforage.setItem(@name, JSON.stringify @)
+    localforage.setItem(@name, JSON.stringify @).then @postsave()
+  postsave: ->
     existing = $(".pcload[value='#{@name}']")
     if existing.length == 0
       btn = "<li><button value='#{@name}' class='pcload ui-btn ui-shadow ui-corner-all'><small>#{ranks[@rank]}</small><br/>#{@name}</button></li>"
@@ -331,12 +332,13 @@ class Witch
       existing.find("small").text(ranks[@rank])
       
   load: (key) ->
-    vals = JSON.parse(localforage[key])
-    for k, v of vals
-      @[k] = v
-    @rebindNatureButtons()
-    @updateNatureMoves()
-    @updateBinding()
+    localforage.getItem(key).then (value) =>
+      vals = JSON.parse(value)
+      for k, v of vals
+        @[k] = v
+      @rebindNatureButtons()
+      @updateNatureMoves()
+      @updateBinding()
 
 pc = new Witch()
 
@@ -348,12 +350,13 @@ loadUI = ->
   uiroles = for r, ri in roles
     "<li><button value='#{ri}'>#{r.name}</button></li>"
   $("#chooseRole ul").html(uiroles.join "")
-  chars = for c,ci in localforage
-    k = localforage.key ci
-    cinfo = JSON.parse(localforage[k])
-    "<li><button value='#{k}' class='pcload'><small>#{ranks[cinfo.rank]}</small><br/>#{cinfo.name}</button></li>"
-  $("#addNew").before(chars.join "")
-  # pc.updateBinding()
+  chars = []
+  localforage.iterate (c, k, num) ->
+    cinfo = JSON.parse(c)
+    chars.push("<li><button value='#{k}' class='pcload'><small>#{ranks[cinfo.rank]}</small><br/>#{cinfo.name}</button></li>")
+    return
+  .then ->
+    $("#addNew").before(chars.join "")
 
 loadUI()
 
