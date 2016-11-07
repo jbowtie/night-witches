@@ -1,0 +1,17 @@
+{
+  "lang": "en",
+  "name": "Night Witches",
+  "icons": [{
+      "src": "img/red_star-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+      },
+      {
+      "src": "img/red_star.svg",
+      "type": "image/svg"
+    }],
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#3E4EB8",
+  "theme_color": "#2F3BA2"
+}

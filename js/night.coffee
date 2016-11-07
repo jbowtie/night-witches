@@ -1,8 +1,6 @@
 document.title="Night Witches"
 # TODO list:
 #   layout on tablet screen?
-#   deploy to server as static html site!
-#   push to github (after git-author-rewrite script!)
 #   enforce maxmoves
 #   allow foreign character move
 #   add delete character support
@@ -324,7 +322,7 @@ class Witch
     $("#adv_marks").html(marks.join "")
     @buildRegardSlots()
   save: ->
-    localStorage[@name] = JSON.stringify @
+    localforage.setItem(@name, JSON.stringify @)
     existing = $(".pcload[value='#{@name}']")
     if existing.length == 0
       btn = "<li><button value='#{@name}' class='pcload ui-btn ui-shadow ui-corner-all'><small>#{ranks[@rank]}</small><br/>#{@name}</button></li>"
@@ -333,7 +331,7 @@ class Witch
       existing.find("small").text(ranks[@rank])
       
   load: (key) ->
-    vals = JSON.parse(localStorage[key])
+    vals = JSON.parse(localforage[key])
     for k, v of vals
       @[k] = v
     @rebindNatureButtons()
@@ -350,9 +348,9 @@ loadUI = ->
   uiroles = for r, ri in roles
     "<li><button value='#{ri}'>#{r.name}</button></li>"
   $("#chooseRole ul").html(uiroles.join "")
-  chars = for c,ci in localStorage
-    k = localStorage.key ci
-    cinfo = JSON.parse(localStorage[k])
+  chars = for c,ci in localforage
+    k = localforage.key ci
+    cinfo = JSON.parse(localforage[k])
     "<li><button value='#{k}' class='pcload'><small>#{ranks[cinfo.rank]}</small><br/>#{cinfo.name}</button></li>"
   $("#addNew").before(chars.join "")
   # pc.updateBinding()
