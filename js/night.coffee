@@ -267,17 +267,23 @@ class Witch
     $("#luck span").text(formatStat @luck)
     $("#skill span").text(formatStat @skill)
     $("#medals span").text(formatStat @medals)
-    if @medals >= 4
-      $("#plusmedal").attr('disabled', 'disabled')
-    else
-      $("#plusmedal").removeAttr('disabled')
+    @disableIf("#plusmedal", @medals >= 4)
+
     maxPromo = @nature?.maxPromo ? 4
-    $("#promoguts").attr('disabled', 'disabled') if @guts >= 3 or @promos >= maxPromo
-    $("#promoluck").attr('disabled', 'disabled') if @luck >= 3 or @promos >= maxPromo
-    $("#promoskill").attr('disabled', 'disabled') if @skill >= 3 or @promos >= maxPromo
+    @disableIf("#promoguts", @guts >= 3 or @promos >= maxPromo)
+    @disableIf("#promoluck", @luck >= 3 or @promos >= maxPromo)
+    @disableIf("#promoskill", @skill >= 3 or @promos >= maxPromo)
+
     maxRegard = @nature?.maxRegard ? 4
-    $("#addregard").attr('disabled', 'disabled') if @regard >= maxRegard
-    $("#changestation").attr("disabled", "disabled") if pc.station? is true
+    @disableIf("#addregard", @regard >= maxRegard)
+    @disableIf("#changestation", @station? is true)
+
+  disableIf: (el, cond) ->
+    if cond
+      $(el).attr('disabled', 'disabled')
+    else
+      $(el).removeAttr('disabled')
+
   rollStat: (stat) ->
     d1 = Math.floor Math.random() * 6 + 1
     d2 = Math.floor Math.random() * 6 + 1

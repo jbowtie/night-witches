@@ -187,27 +187,21 @@
       $("#luck span").text(formatStat(this.luck));
       $("#skill span").text(formatStat(this.skill));
       $("#medals span").text(formatStat(this.medals));
-      if (this.medals >= 4) {
-        $("#plusmedal").attr('disabled', 'disabled');
-      } else {
-        $("#plusmedal").removeAttr('disabled');
-      }
+      this.disableIf("#plusmedal", this.medals >= 4);
       maxPromo = (ref3 = (ref4 = this.nature) != null ? ref4.maxPromo : void 0) != null ? ref3 : 4;
-      if (this.guts >= 3 || this.promos >= maxPromo) {
-        $("#promoguts").attr('disabled', 'disabled');
-      }
-      if (this.luck >= 3 || this.promos >= maxPromo) {
-        $("#promoluck").attr('disabled', 'disabled');
-      }
-      if (this.skill >= 3 || this.promos >= maxPromo) {
-        $("#promoskill").attr('disabled', 'disabled');
-      }
+      this.disableIf("#promoguts", this.guts >= 3 || this.promos >= maxPromo);
+      this.disableIf("#promoluck", this.luck >= 3 || this.promos >= maxPromo);
+      this.disableIf("#promoskill", this.skill >= 3 || this.promos >= maxPromo);
       maxRegard = (ref5 = (ref6 = this.nature) != null ? ref6.maxRegard : void 0) != null ? ref5 : 4;
-      if (this.regard >= maxRegard) {
-        $("#addregard").attr('disabled', 'disabled');
-      }
-      if ((pc.station != null) === true) {
-        return $("#changestation").attr("disabled", "disabled");
+      this.disableIf("#addregard", this.regard >= maxRegard);
+      return this.disableIf("#changestation", (this.station != null) === true);
+    };
+
+    Witch.prototype.disableIf = function(el, cond) {
+      if (cond) {
+        return $(el).attr('disabled', 'disabled');
+      } else {
+        return $(el).removeAttr('disabled');
       }
     };
 
