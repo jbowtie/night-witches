@@ -2,6 +2,7 @@ var cacheName = "nw-v2:static";
 var filesToCache = [
     "./",
     "./css/jquery.mobile-1.4.5.min.css",
+    "./css/images/ajax-loader.gif",
     "./css/main.css",
     "./js/vendor/modernizr-2.8.3.min.js",
     "./js/vendor/jquery-1.11.2.min.js",
