@@ -289,14 +289,14 @@ class Witch {
 
     const maxRegard = (this.nature != null ? this.nature.maxRegard : undefined) != null ? (this.nature != null ? this.nature.maxRegard : undefined) : 4;
     this.disableIf("#addregard", this.regard >= maxRegard);
-    return this.disableIf("#changestation", (this.station != null) === true);
+    this.disableIf("#changestation", (this.station != null) === true);
   }
 
   disableIf(el, cond) {
     if (cond) {
-      return $(el).attr('disabled', 'disabled');
+      $(el).attr('disabled', 'disabled');
     } else {
-      return $(el).removeAttr('disabled');
+      $(el).removeAttr('disabled');
     }
   }
 
@@ -304,62 +304,62 @@ class Witch {
     const d1 = Math.floor((Math.random() * 6) + 1);
     const d2 = Math.floor((Math.random() * 6) + 1);
     const newVal = d1 + d2 + this[stat];
-    return $("footer p:first").html(`Rolled ${d1} + ${d2} + ${stat} = <strong>${newVal}</strong> (+1 if Regard applies)`); //.effect("highlight")
+    $("footer p:first").html(`Rolled ${d1} + ${d2} + ${stat} = <strong>${newVal}</strong> (+1 if Regard applies)`); //.effect("highlight")
   }
   assignNature(nature) {
     this.nature = nature;
-    return this.rebindNatureButtons();
+    this.rebindNatureButtons();
   }
   updateNatureMoves() {
     $(".naturemove").remove();
-    const moves = Array.from(this.nature.moves).map((m) =>
-      Array.from(this.moves).includes(m.name) ?
+    const moves = this.nature.moves.map((m) =>
+      this.moves.includes(m.name) ?
         `<li class='naturemove ui-li-static ui-body-inherit'><h3>${m.name}</h3><p>${m.desc}</p></li>`
       :
         "");
-    return $(".nm_header").after(moves.join(""));  
+    $(".nm_header").after(moves.join(""));  
   }
   buildRegardSlots() {
     const maxRegard = this.nature.maxRegard != null ? this.nature.maxRegard : 4;
     const regardslots = $('.regard .ui-content ul');
     regardslots.empty();
-    const vals = Array.from(feels).map((f) =>
+    const vals = feels.map((f) =>
       `<option>${f}</option>`);
     const v = vals.join("");
-    for (let r of Array.from(this.regard)) {
+    for (let r of this.regard) {
       const r2 = `<li><div data-role='controlgroup' data-type='horizontal'><select>${v}</select><input type='text' data-wrapper-class='controlgroup-textinput ui-btn' placeholder='Person or airplane' /> </div></li>`;
       regardslots.append(r2);
       regardslots.find("div:last").controlgroup().find("select").val(r.feeling).selectmenu("refresh", true).end().find("input").val(r.target).textinput();
     }
     const reg = __range__(this.regard.length, maxRegard, false).map((i) =>
       "<li class='locked'>LOCKED</li>");
-    return regardslots.append(reg.join(""));
+    regardslots.append(reg.join(""));
   }
   rebindNatureButtons() {
-    const moves = Array.from(this.nature.moves).map((m) =>
-      Array.from(this.moves).includes(m.name) ?
+    const moves = this.nature.moves.map((m) =>
+      this.moves.includes(m.name) ?
         `<button class='addmove' value='${m.name}' disabled='disabled'><strong>${m.name}:</strong> ${m.desc}</button>`
       :
         `<button class='addmove' value='${m.name}'><strong>${m.name}:</strong> ${m.desc}</button>`);
     $("#adv_moves").html(moves.join(""));
-    const marks = Array.from(this.nature.marks).map((mk) =>
-      Array.from(this.marks).includes(mk) ?
+    const marks = this.nature.marks.map((mk) =>
+      this.marks.includes(mk) ?
         `<button disabled='disabled'>${mk}</button>`
       :
         `<button>${mk}</button>`);
     $("#adv_marks").html(marks.join(""));
-    return this.buildRegardSlots();
+    this.buildRegardSlots();
   }
   save() {
-    return localforage.setItem(this.name, JSON.stringify(this)).then(this.postsave());
+    localforage.setItem(this.name, JSON.stringify(this)).then(this.postsave());
   }
   postsave() {
     const existing = $(`.pcload[value='${this.name}']`);
     if (existing.length === 0) {
       const btn = `<li><button value='${this.name}' class='pcload ui-btn ui-shadow ui-corner-all'><small>${ranks[this.rank]}</small><br/>${this.name}</button></li>`;
-      return $("#addNew").before(btn);
+      $("#addNew").before(btn);
     } else {
-      return existing.find("small").text(ranks[this.rank]);
+      existing.find("small").text(ranks[this.rank]);
     }
   }
       
@@ -372,7 +372,7 @@ class Witch {
       }
       this.rebindNatureButtons();
       this.updateNatureMoves();
-      return this.updateBinding();
+      this.updateBinding();
     });
   }
 }
@@ -391,11 +391,11 @@ const loadUI = function() {
     return result;
   })();
   $("#chooseNature ul").html(nat.join(""));
-  const uiroles = Array.from(roles).map((r, ri) =>
+  const uiroles = roles.map((r, ri) =>
     `<li><button value='${ri}'>${r.name}</button></li>`);
   $("#chooseRole ul").html(uiroles.join(""));
   const chars = [];
-  return localforage.iterate(function(c, k, num) {
+  localforage.iterate(function(c, k, num) {
     const cinfo = JSON.parse(c);
     chars.push(`<li><button value='${k}' class='pcload'><small>${ranks[cinfo.rank]}</small><br/>${cinfo.name}</button></li>`);
     }).then(() => $("#addNew").before(chars.join("")));
@@ -459,7 +459,7 @@ $("#addregard").on("click", function(e) {
   location.hash = "regard";
   const newSlot = {feeling: "love", target: ""};
   pc.regard.push(newSlot);
-  const vals = Array.from(feels).map((f) =>
+  const vals = feels.map((f) =>
     `<option>${f}</option>`);
   const v = vals.join("");
   // TODO -- get rid of the JQM cruft
@@ -475,7 +475,8 @@ $("#changestation").on("click", function(e) {
   pc.station = true;
   pc.updateBinding();
   pc.save();
-  return location.hash = "char";
+  location.hash = "char";
+  return false;
 });
 
 $(".harm li").on("click", function(e) {
@@ -560,7 +561,8 @@ $("#chooseChar ul").on("click", ".pcload", function(e) {
   pc = new Witch();
   const key = $(this).attr("value");
   pc.load(key);
-  return location.hash = "char";
+  location.hash = "char";
+  return false;
 });
 
 $(".regard ul").on("change", "input", function(e) {
